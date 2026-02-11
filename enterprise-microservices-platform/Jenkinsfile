@@ -1,19 +1,117 @@
 pipeline {
     agent any
+
+    environment {
+        REGISTRY = 'docker.io'
+        REGISTRY_CREDENTIALS = 'docker-credentials'
+        IMAGE_TAG = "${BUILD_NUMBER}"
+    }
+
     stages {
+        stage('Checkout') {
+            steps {
+                script {
+                    echo "Checking out source code..."
+                    checkout scm
+                }
+            }
+        }
+
         stage('Build') {
             steps {
-                sh 'mvn clean install'
+                script {
+                    echo "Building with Maven..."
+                    sh 'mvn -f enterprise-microservices-platform/pom.xml clean verify'
+                }
             }
         }
-        stage('Docker Build') {
+
+        stage('Unit Tests') {
             steps {
-                sh 'docker-compose build'
+                script {
+                    echo "Running unit tests..."
+                    sh 'mvn -f enterprise-microservices-platform/pom.xml test'
+                }
             }
         }
-        stage('Deploy') {
+
+        stage('Code Quality Analysis') {
             steps {
-                sh 'docker-compose up -d'
+                script {
+                    echo "Running SonarQube analysis..."
+                    sh 'mvn -f enterprise-microservices-platform/pom.xml sonar:sonar -Dsonar.projectKey=enterprise-microservices-platform'
+                }
+            }
+        }
+
+        stage('Build Docker Images') {
+            steps {
+                script {
+                    echo "Building Docker images..."
+                    sh '''
+                        cd enterprise-microservices-platform
+                        docker build -t service-registry:${IMAGE_TAG} ./service-registry
+                        docker build -t config-server:${IMAGE_TAG} ./config-server
+                        docker build -t api-gateway:${IMAGE_TAG} ./api-gateway
+                        docker build -t auth-service:${IMAGE_TAG} ./auth-service
+                        docker build -t product-catalog-service:${IMAGE_TAG} ./product-catalog-service
+                        docker build -t inventory-service:${IMAGE_TAG} ./inventory-service
+                        docker build -t order-service:${IMAGE_TAG} ./order-service
+                        docker build -t notification-service:${IMAGE_TAG} ./notification-service
+                        docker build -t aggregation-service:${IMAGE_TAG} ./aggregation-service
+                    '''
+                }
+            }
+        }
+
+        stage('Deploy via Docker Compose') {
+            steps {
+                script {
+                    echo "Deploying services via docker-compose..."
+                    sh '''
+                        cd enterprise-microservices-platform
+                        docker-compose down
+                        docker-compose up -d
+                        sleep 30
+                        docker-compose ps
+                    '''
+                }
+            }
+        }
+
+        stage('Health Check') {
+            steps {
+                script {
+                    echo "Checking service health..."
+                    sh '''
+                        for port in 8761 8080 8081 8082 8083 8084 8085 8086; do
+                            echo "Checking port $port..."
+                            curl -f http://localhost:$port/actuator/health || true
+                            sleep 2
+                        done
+                    '''
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            script {
+                echo "Pipeline completed successfully!"
+            }
+        }
+
+        failure {
+            script {
+                echo "Pipeline failed!"
+            }
+        }
+
+        always {
+            script {
+                echo "Cleaning up workspace..."
+                cleanWs()
             }
         }
     }
