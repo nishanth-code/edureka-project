@@ -1,0 +1,7 @@
+com\edureka\microservices\inventory\repository\InventoryRepository.class
+com\edureka\microservices\inventory\controller\InventoryController.class
+com\edureka\microservices\inventory\dto\StockUpdateRequest.class
+com\edureka\microservices\inventory\entity\Inventory.class
+com\edureka\microservices\inventory\service\InventoryService.class
+com\edureka\microservices\inventory\dto\InventoryResponse.class
+com\edureka\microservices\inventory\InventoryServiceApplication.class

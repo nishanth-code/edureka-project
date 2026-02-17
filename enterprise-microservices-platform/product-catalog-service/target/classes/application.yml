@@ -4,9 +4,9 @@ spring:
   profiles:
     active: dev
   datasource:
-    url: jdbc:postgresql://localhost:5432/product_db
-    username: postgres
-    password: postgres
+    url: jdbc:postgresql://pg-19a19b3d-nishanthnavneeth200-070b.c.aivencloud.com:15520/product-db?sslmode=require
+    username: avnadmin
+    password: AVNS_arFBrCow_QhvteWeQAf
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -18,7 +18,7 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
 server:
-  port: 8082
+  port: 8083
 
 eureka:
   client:

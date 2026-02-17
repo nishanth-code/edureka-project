@@ -1,0 +1,7 @@
+com\edureka\microservices\product\dto\CreateProductRequest.class
+com\edureka\microservices\product\ProductCatalogServiceApplication.class
+com\edureka\microservices\product\service\ProductService.class
+com\edureka\microservices\product\entity\Product.class
+com\edureka\microservices\product\repository\ProductRepository.class
+com\edureka\microservices\product\controller\ProductController.class
+com\edureka\microservices\product\dto\ProductResponse.class

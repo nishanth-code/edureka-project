@@ -1,0 +1,8 @@
+com\edureka\microservices\aggregation\client\ProductServiceClient.class
+com\edureka\microservices\aggregation\client\InventoryResponse.class
+com\edureka\microservices\aggregation\client\InventoryServiceClient.class
+com\edureka\microservices\aggregation\client\ProductResponse.class
+com\edureka\microservices\aggregation\controller\AggregationController.class
+com\edureka\microservices\aggregation\dto\AggregatedProductResponse.class
+com\edureka\microservices\aggregation\service\AggregationService.class
+com\edureka\microservices\aggregation\AggregationServiceApplication.class

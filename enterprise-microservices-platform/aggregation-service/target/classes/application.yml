@@ -3,9 +3,16 @@ spring:
     name: aggregation-service
   profiles:
     active: dev
+  cloud:
+    openfeign:
+      lazy-attributes-resolution: true
+      client:
+        refresh-enabled: true
+      circuitbreaker:
+        enabled: true
 
 server:
-  port: 8086
+  port: 8087
 
 eureka:
   client:
@@ -13,19 +20,35 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
     register-with-eureka: true
     fetch-registry: true
+    registry-fetch-interval-seconds: 10
+    healthcheck:
+      enabled: true
   instance:
     prefer-ip-address: true
     instance-id: ${spring.application.name}:${server.port}
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 30
 
 feign:
   client:
     config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: full
       product-catalog-service:
+        url: http://localhost:8083
         connectTimeout: 5000
         readTimeout: 5000
       inventory-service:
+        url: http://localhost:8084
         connectTimeout: 5000
         readTimeout: 5000
+  lazy-attributes-resolution: true
+  compression:
+    request:
+      enabled: true
+      min-request-size: 2048
 
 resilience4j:
   circuitbreaker:

@@ -4,9 +4,9 @@ spring:
   profiles:
     active: dev
   datasource:
-    url: jdbc:postgresql://localhost:5432/order_db
-    username: postgres
-    password: postgres
+    url: jdbc:postgresql://pg-19a19b3d-nishanthnavneeth200-070b.c.aivencloud.com:15520/defaultdb?sslmode=require
+    username: avnadmin
+    password: AVNS_arFBrCow_QhvteWeQAf
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -32,7 +32,7 @@ spring:
         spring.json.trusted.packages: "*"
 
 server:
-  port: 8084
+  port: 8085
 
 eureka:
   client:

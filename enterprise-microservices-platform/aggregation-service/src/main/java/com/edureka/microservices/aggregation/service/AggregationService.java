@@ -8,6 +8,7 @@ import com.edureka.microservices.aggregation.dto.AggregatedProductResponse;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,24 +16,24 @@ public class AggregationService {
 
     private static final Logger logger = LoggerFactory.getLogger(AggregationService.class);
 
-    private final ProductServiceClient productServiceClient;
-    private final InventoryServiceClient inventoryServiceClient;
+    private final ObjectProvider<ProductServiceClient> productServiceClientProvider;
+    private final ObjectProvider<InventoryServiceClient> inventoryServiceClientProvider;
 
-    public AggregationService(ProductServiceClient productServiceClient, InventoryServiceClient inventoryServiceClient) {
-        this.productServiceClient = productServiceClient;
-        this.inventoryServiceClient = inventoryServiceClient;
+    public AggregationService(ObjectProvider<ProductServiceClient> productServiceClientProvider, ObjectProvider<InventoryServiceClient> inventoryServiceClientProvider) {
+        this.productServiceClientProvider = productServiceClientProvider;
+        this.inventoryServiceClientProvider = inventoryServiceClientProvider;
     }
 
     @CircuitBreaker(name = "product-service", fallbackMethod = "getAggregatedProductFallback")
     public AggregatedProductResponse getAggregatedProduct(Long productId) {
         logger.info("Aggregating data for product: {}", productId);
 
-        ProductResponse product = productServiceClient.getProductById(productId);
+        ProductResponse product = productServiceClientProvider.getObject().getProductById(productId);
         logger.info("Retrieved product from product-service: {}", productId);
 
         InventoryResponse inventory;
         try {
-            inventory = inventoryServiceClient.getInventoryByProductId(productId);
+            inventory = inventoryServiceClientProvider.getObject().getInventoryByProductId(productId);
             logger.info("Retrieved inventory from inventory-service: {}", productId);
         } catch (Exception ex) {
             logger.warn("Failed to retrieve inventory for product: {}, using default", productId);

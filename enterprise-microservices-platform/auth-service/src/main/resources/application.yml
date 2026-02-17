@@ -4,9 +4,9 @@ spring:
   profiles:
     active: dev
   datasource:
-    url: jdbc:postgresql://localhost:5432/auth_db
-    username: postgres
-    password: postgres
+    url: jdbc:postgresql://pg-19a19b3d-nishanthnavneeth200-070b.c.aivencloud.com:15520/defaultdb?sslmode=require
+    username: avnadmin
+    password: AVNS_arFBrCow_QhvteWeQAf
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -22,7 +22,7 @@ spring:
       max-request-size: 10MB
 
 server:
-  port: 8081
+  port: 8082
 
 eureka:
   client:
