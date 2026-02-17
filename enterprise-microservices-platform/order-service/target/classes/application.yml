@@ -3,10 +3,17 @@ spring:
     name: order-service
   profiles:
     active: dev
+  cloud:
+    openfeign:
+      lazy-attributes-resolution: true
+      client:
+        refresh-enabled: true
+      circuitbreaker:
+        enabled: true
   datasource:
-    url: jdbc:postgresql://pg-19a19b3d-nishanthnavneeth200-070b.c.aivencloud.com:15520/defaultdb?sslmode=require
+    url: jdbc:postgresql://pg-95ddcf-nishanthtv64-a2ee.d.aivencloud.com:27715/defaultdb?sslmode=require
     username: avnadmin
-    password: AVNS_arFBrCow_QhvteWeQAf
+    password: AVNS_lYy4khGTvvNoxeHnbhQ
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -40,16 +47,31 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
     register-with-eureka: true
     fetch-registry: true
+    registry-fetch-interval-seconds: 10
+    healthcheck:
+      enabled: true
   instance:
     prefer-ip-address: true
     instance-id: ${spring.application.name}:${server.port}
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 30
 
 feign:
   client:
     config:
-      inventory-service:
+      default:
         connectTimeout: 5000
         readTimeout: 5000
+        loggerLevel: full
+      inventory-service:
+        url: http://localhost:8084
+        connectTimeout: 5000
+        readTimeout: 5000
+  lazy-attributes-resolution: true
+  compression:
+    request:
+      enabled: true
+      min-request-size: 2048
 
 resilience4j:
   circuitbreaker:

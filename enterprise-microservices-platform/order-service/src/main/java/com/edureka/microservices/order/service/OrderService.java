@@ -11,6 +11,7 @@ import com.edureka.microservices.order.repository.OrderRepository;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,12 +26,12 @@ public class OrderService {
     private static final Logger logger = LoggerFactory.getLogger(OrderService.class);
 
     private final OrderRepository orderRepository;
-    private final InventoryServiceClient inventoryServiceClient;
+    private final ObjectProvider<InventoryServiceClient> inventoryServiceClientProvider;
     private final OrderEventProducer orderEventProducer;
 
-    public OrderService(OrderRepository orderRepository, InventoryServiceClient inventoryServiceClient, OrderEventProducer orderEventProducer) {
+    public OrderService(OrderRepository orderRepository, ObjectProvider<InventoryServiceClient> inventoryServiceClientProvider, OrderEventProducer orderEventProducer) {
         this.orderRepository = orderRepository;
-        this.inventoryServiceClient = inventoryServiceClient;
+        this.inventoryServiceClientProvider = inventoryServiceClientProvider;
         this.orderEventProducer = orderEventProducer;
     }
 
@@ -39,7 +40,7 @@ public class OrderService {
         logger.info("Creating order for user: {}, product: {}, quantity: {}", request.userId(), request.productId(), request.quantity());
 
         try {
-            inventoryServiceClient.checkAvailability(request.productId(), request.quantity());
+            inventoryServiceClientProvider.getObject().checkAvailability(request.productId(), request.quantity());
             logger.info("Stock availability confirmed for product: {}", request.productId());
         } catch (Exception ex) {
             logger.error("Failed to check inventory availability: {}", ex.getMessage());
@@ -51,7 +52,7 @@ public class OrderService {
         logger.info("Order created with ID: {}", savedOrder.getId());
 
         try {
-            inventoryServiceClient.decreaseStock(request.productId(), request.quantity());
+            inventoryServiceClientProvider.getObject().decreaseStock(request.productId(), request.quantity());
             logger.info("Stock decreased for product: {}", request.productId());
 
             order.setStatus(OrderStatus.CONFIRMED);

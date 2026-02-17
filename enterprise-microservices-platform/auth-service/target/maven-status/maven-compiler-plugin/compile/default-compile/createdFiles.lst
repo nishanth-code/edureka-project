@@ -3,6 +3,7 @@ com\edureka\microservices\auth\security\JwtTokenProvider.class
 com\edureka\microservices\auth\dto\LoginRequest.class
 com\edureka\microservices\auth\controller\AuthController.class
 com\edureka\microservices\auth\exception\GlobalExceptionHandler.class
+com\edureka\microservices\auth\security\SecurityConfig.class
 com\edureka\microservices\auth\entity\User.class
 com\edureka\microservices\auth\exception\ErrorResponse.class
 com\edureka\microservices\auth\dto\RegisterRequest.class

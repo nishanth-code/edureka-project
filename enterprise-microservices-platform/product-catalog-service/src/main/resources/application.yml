@@ -4,9 +4,9 @@ spring:
   profiles:
     active: dev
   datasource:
-    url: jdbc:postgresql://pg-19a19b3d-nishanthnavneeth200-070b.c.aivencloud.com:15520/product-db?sslmode=require
+    url: jdbc:postgresql://pg-95ddcf-nishanthtv64-a2ee.d.aivencloud.com:27715/defaultdb?sslmode=require
     username: avnadmin
-    password: AVNS_arFBrCow_QhvteWeQAf
+    password: AVNS_lYy4khGTvvNoxeHnbhQ
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:

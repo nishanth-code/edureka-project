@@ -1,14 +1,103 @@
+version: '3.9'
+
 services:
   service-registry:
     build:
       context: .
       dockerfile: ./service-registry/Dockerfile
     ports:
-      - "8761:8080"
+      - "8761:8761"
+    networks:
+      - microservices-network
+
+  config-server:
+    build:
+      context: .
+      dockerfile: ./config-server/Dockerfile
+    ports:
+      - "8888:8888"
+    depends_on:
+      - service-registry
+    networks:
+      - microservices-network
+
+  auth-service:
+    build:
+      context: .
+      dockerfile: ./auth-service/Dockerfile
+    ports:
+      - "8082:8082"
+    depends_on:
+      - service-registry
+    networks:
+      - microservices-network
+
+  product-catalog-service:
+    build:
+      context: .
+      dockerfile: ./product-catalog-service/Dockerfile
+    ports:
+      - "8083:8083"
+    depends_on:
+      - service-registry
+    networks:
+      - microservices-network
+
+  inventory-service:
+    build:
+      context: .
+      dockerfile: ./inventory-service/Dockerfile
+    ports:
+      - "8084:8084"
+    depends_on:
+      - service-registry
+    networks:
+      - microservices-network
+
+  order-service:
+    build:
+      context: .
+      dockerfile: ./order-service/Dockerfile
+    ports:
+      - "8085:8085"
+    depends_on:
+      - service-registry
+    networks:
+      - microservices-network
+
+  notification-service:
+    build:
+      context: .
+      dockerfile: ./notification-service/Dockerfile
+    ports:
+      - "8086:8086"
+    depends_on:
+      - service-registry
+    networks:
+      - microservices-network
+
+  aggregation-service:
+    build:
+      context: .
+      dockerfile: ./aggregation-service/Dockerfile
+    ports:
+      - "8087:8087"
+    depends_on:
+      - service-registry
+    networks:
+      - microservices-network
 
   api-gateway:
     build:
       context: .
       dockerfile: ./api-gateway/Dockerfile
     ports:
-      - "8080:8080"
+      - "8081:8081"
+    depends_on:
+      - service-registry
+    networks:
+      - microservices-network
+
+networks:
+  microservices-network:
+    driver: bridge

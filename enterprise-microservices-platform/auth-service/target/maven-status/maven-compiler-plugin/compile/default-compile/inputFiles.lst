@@ -9,4 +9,5 @@ C:\Users\Nishanth\Documents\GitHub\edureka-project\enterprise-microservices-plat
 C:\Users\Nishanth\Documents\GitHub\edureka-project\enterprise-microservices-platform\auth-service\src\main\java\com\edureka\microservices\auth\exception\GlobalExceptionHandler.java
 C:\Users\Nishanth\Documents\GitHub\edureka-project\enterprise-microservices-platform\auth-service\src\main\java\com\edureka\microservices\auth\repository\UserRepository.java
 C:\Users\Nishanth\Documents\GitHub\edureka-project\enterprise-microservices-platform\auth-service\src\main\java\com\edureka\microservices\auth\security\JwtTokenProvider.java
+C:\Users\Nishanth\Documents\GitHub\edureka-project\enterprise-microservices-platform\auth-service\src\main\java\com\edureka\microservices\auth\security\SecurityConfig.java
 C:\Users\Nishanth\Documents\GitHub\edureka-project\enterprise-microservices-platform\auth-service\src\main\java\com\edureka\microservices\auth\service\AuthService.java

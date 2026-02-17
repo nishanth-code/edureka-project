@@ -1,3 +1,4 @@
 com\edureka\microservices\gateway\security\JwtAuthenticationFilter.class
 com\edureka\microservices\gateway\security\JwtTokenProvider.class
 com\edureka\microservices\gateway\ApiGatewayApplication.class
+com\edureka\microservices\gateway\security\SecurityConfig.class
