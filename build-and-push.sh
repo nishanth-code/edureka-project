@@ -29,15 +29,21 @@ NC='\033[0m' # No Color
 
 # Services to build
 SERVICES=(
+
+ 
+  
+  
+  
+  "aggregation-service"
+
   "service-registry"
   "config-server"
-  "api-gateway"
-  "auth-service"
-  "product-catalog-service"
-  "inventory-service"
+   "api-gateway"
+   "auth-service"
+    "product-catalog-service"
+    "inventory-service"
   "order-service"
   "notification-service"
-  "aggregation-service"
 )
 
 # Functions
