@@ -3,16 +3,6 @@ spring:
     name: notification-service
   profiles:
     active: dev
-  kafka:
-    bootstrap-servers: localhost:9092
-    consumer:
-      bootstrap-servers: localhost:9092
-      group-id: notification-service-group
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-      properties:
-        spring.json.trusted.packages: "*"
-      auto-offset-reset: earliest
 
 server:
   port: 8086
@@ -27,6 +17,13 @@ eureka:
     prefer-ip-address: true
     instance-id: ${spring.application.name}:${server.port}
 
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+
 management:
   endpoints:
     web:
@@ -40,4 +37,3 @@ logging:
   level:
     root: INFO
     com.edureka.microservices: DEBUG
-    org.apache.kafka: WARN

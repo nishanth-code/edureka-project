@@ -38,7 +38,7 @@ public class ProductController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Get product by ID")
-    public ResponseEntity<ProductResponse> getProduct(@Parameter(description = "Product ID",required=true) @PathVariable Long id) {
+    public ResponseEntity<ProductResponse> getProduct(@Parameter(description = "Product ID",required=true) @PathVariable("id") Long id) {
         logger.info("Fetching product: {}", id);
         ProductResponse response = productService.getProductById(id);
         return ResponseEntity.ok(response);
@@ -54,7 +54,7 @@ public class ProductController {
 
     @GetMapping("/category/{category}")
     @Operation(summary = "Get products by category")
-    public ResponseEntity<List<ProductResponse>> getProductsByCategory(@Parameter(description = "Product Category",required=true) @PathVariable String category) {
+    public ResponseEntity<List<ProductResponse>> getProductsByCategory(@Parameter(description = "Product Category",required=true) @PathVariable("category") String category) {
         logger.info("Fetching products by category: {}", category);
         List<ProductResponse> products = productService.getProductsByCategory(category);
         return ResponseEntity.ok(products);
@@ -70,7 +70,7 @@ public class ProductController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Update a product")
-    public ResponseEntity<ProductResponse> updateProduct(@Parameter(description = "Product ID",required=true) @PathVariable Long id, @Valid @RequestBody CreateProductRequest request) {
+    public ResponseEntity<ProductResponse> updateProduct(@Parameter(description = "Product ID",required=true) @PathVariable("id") Long id, @Valid @RequestBody CreateProductRequest request) {
         logger.info("Updating product: {}", id);
         ProductResponse response = productService.updateProduct(id, request);
         return ResponseEntity.ok(response);
@@ -78,7 +78,7 @@ public class ProductController {
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete a product")
-    public ResponseEntity<Void> deleteProduct(@Parameter(description = "Product ID",required=true) @PathVariable Long id) {
+    public ResponseEntity<Void> deleteProduct(@Parameter(description = "Product ID",required=true) @PathVariable("id") Long id) {
         logger.info("Deleting product: {}", id);
         productService.deleteProduct(id);
         return ResponseEntity.noContent().build();

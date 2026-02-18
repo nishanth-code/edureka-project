@@ -43,7 +43,7 @@ public class InventoryController {
 
     @GetMapping("/product/{productId}")
     @Operation(summary = "Get inventory for a product")
-    public ResponseEntity<InventoryResponse> getInventory(@PathVariable Long productId) {
+    public ResponseEntity<InventoryResponse> getInventory(@PathVariable("productId") Long productId) {
         logger.info("Fetching inventory for product: {}", productId);
         InventoryResponse response = inventoryService.getInventoryByProductId(productId);
         return ResponseEntity.ok(response);
@@ -52,8 +52,8 @@ public class InventoryController {
     @PostMapping("/check-availability")
     @Operation(summary = "Check stock availability")
     public ResponseEntity<InventoryResponse> checkAvailability(
-            @RequestParam Long productId,
-            @RequestParam Integer requiredQuantity) {
+            @RequestParam("productId") Long productId,
+            @RequestParam("requiredQuantity") Integer requiredQuantity) {
         logger.info("Checking availability for product: {} with quantity: {}", productId, requiredQuantity);
         InventoryResponse response = inventoryService.checkAvailability(productId, requiredQuantity);
         return ResponseEntity.ok(response);
@@ -62,8 +62,8 @@ public class InventoryController {
     @PostMapping("/decrease")
     @Operation(summary = "Decrease stock for a product")
     public ResponseEntity<InventoryResponse> decreaseStock(
-            @RequestParam Long productId,
-            @RequestParam Integer quantity) {
+            @RequestParam("productId") Long productId,
+            @RequestParam("quantity") Integer quantity) {
         logger.info("Decreasing stock for product: {} by quantity: {}", productId, quantity);
         InventoryResponse response = inventoryService.decreaseStock(productId, quantity);
         return ResponseEntity.ok(response);

@@ -1,12 +1,12 @@
 package com.edureka.microservices.order.service;
 
 import com.edureka.microservices.order.client.InventoryServiceClient;
+import com.edureka.microservices.order.client.NotificationServiceClient;
 import com.edureka.microservices.order.dto.CreateOrderRequest;
 import com.edureka.microservices.order.dto.OrderResponse;
 import com.edureka.microservices.order.entity.Order;
 import com.edureka.microservices.order.entity.OrderStatus;
 import com.edureka.microservices.order.event.OrderCreatedEvent;
-import com.edureka.microservices.order.kafka.OrderEventProducer;
 import com.edureka.microservices.order.repository.OrderRepository;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.slf4j.Logger;
@@ -27,12 +27,12 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final ObjectProvider<InventoryServiceClient> inventoryServiceClientProvider;
-    private final OrderEventProducer orderEventProducer;
+    private final ObjectProvider<NotificationServiceClient> notificationServiceClientProvider;
 
-    public OrderService(OrderRepository orderRepository, ObjectProvider<InventoryServiceClient> inventoryServiceClientProvider, OrderEventProducer orderEventProducer) {
+    public OrderService(OrderRepository orderRepository, ObjectProvider<InventoryServiceClient> inventoryServiceClientProvider, ObjectProvider<NotificationServiceClient> notificationServiceClientProvider) {
         this.orderRepository = orderRepository;
         this.inventoryServiceClientProvider = inventoryServiceClientProvider;
-        this.orderEventProducer = orderEventProducer;
+        this.notificationServiceClientProvider = notificationServiceClientProvider;
     }
 
     @CircuitBreaker(name = "inventory-service", fallbackMethod = "createOrderFallback")
@@ -66,8 +66,8 @@ public class OrderService {
                 updatedOrder.getStatus().name(),
                 updatedOrder.getCreatedAt()
             );
-            orderEventProducer.publishOrderCreatedEvent(event);
-            logger.info("Order confirmed and event published for order: {}", updatedOrder.getId());
+            notificationServiceClientProvider.getObject().sendNotification(event);
+            logger.info("Order confirmed and notification sent for order: {}", updatedOrder.getId());
 
             return toResponse(updatedOrder);
         } catch (Exception ex) {
@@ -91,7 +91,11 @@ public class OrderService {
             savedOrder.getStatus().name(),
             savedOrder.getCreatedAt()
         );
-        orderEventProducer.publishOrderCreatedEvent(event);
+        try {
+            notificationServiceClientProvider.getObject().sendNotification(event);
+        } catch (Exception notifEx) {
+            logger.warn("Failed to send notification: {}", notifEx.getMessage());
+        }
 
         return toResponse(savedOrder);
     }

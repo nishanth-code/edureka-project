@@ -37,7 +37,7 @@ public class OrderController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Get order by ID")
-    public ResponseEntity<OrderResponse> getOrder(@PathVariable Long id) {
+    public ResponseEntity<OrderResponse> getOrder(@PathVariable("id") Long id) {
         logger.info("Fetching order: {}", id);
         OrderResponse response = orderService.getOrderById(id);
         return ResponseEntity.ok(response);
@@ -45,7 +45,7 @@ public class OrderController {
 
     @GetMapping("/user/{userId}")
     @Operation(summary = "Get all orders for a user")
-    public ResponseEntity<List<OrderResponse>> getUserOrders(@PathVariable Long userId) {
+    public ResponseEntity<List<OrderResponse>> getUserOrders(@PathVariable("userId") Long userId) {
         logger.info("Fetching orders for user: {}", userId);
         List<OrderResponse> orders = orderService.getUserOrders(userId);
         return ResponseEntity.ok(orders);

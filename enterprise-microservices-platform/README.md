@@ -17,8 +17,8 @@ enterprise-microservices-platform/
 ├── auth-service/               # Authentication Service (Port 8081)
 ├── product-catalog-service/    # Product Management (Port 8082)
 ├── inventory-service/          # Stock Management (Port 8083)
-├── order-service/              # Order Processing with Kafka (Port 8084)
-├── notification-service/       # Event Listener (Port 8085)
+├── order-service/              # Order Processing (Port 8085)
+├── notification-service/       # Notifications (Port 8086)
 ├── aggregation-service/        # BFF Pattern (Port 8086)
 ```
 
@@ -28,7 +28,6 @@ enterprise-microservices-platform/
 - **Spring Boot 3.3.0** - Latest stable version
 - **Spring Cloud 2023.0.2** - LTS release
 - **PostgreSQL 15** - Relational database per service
-- **Apache Kafka 3.7** - Async messaging
 - **Eureka** - Service discovery
 - **Spring Cloud Gateway** - API Gateway with routing
 - **OpenFeign** - Declarative HTTP client

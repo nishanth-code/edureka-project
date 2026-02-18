@@ -1,11 +1,12 @@
-com\edureka\microservices\order\client\InventoryServiceClient.class
 com\edureka\microservices\order\dto\CreateOrderRequest.class
 com\edureka\microservices\order\OrderServiceApplication.class
 com\edureka\microservices\order\repository\OrderRepository.class
+com\edureka\microservices\order\event\OrderCreatedEvent.class
+com\edureka\microservices\order\client\NotificationServiceClient.class
+com\edureka\microservices\order\client\InventoryServiceClient.class
 com\edureka\microservices\order\entity\OrderStatus.class
 com\edureka\microservices\order\dto\OrderResponse.class
 com\edureka\microservices\order\service\OrderService.class
-com\edureka\microservices\order\event\OrderCreatedEvent.class
 com\edureka\microservices\order\controller\OrderController.class
 com\edureka\microservices\order\entity\Order.class
 com\edureka\microservices\order\kafka\OrderEventProducer.class

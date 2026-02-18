@@ -34,7 +34,6 @@
         <resilience4j.version>2.1.0</resilience4j.version>
         <openfeign.version>4.1.0</openfeign.version>
         <jwt.version>0.12.3</jwt.version>
-        <kafka.version>3.7.0</kafka.version>
         <maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
         <maven-failsafe-plugin.version>3.2.5</maven-failsafe-plugin.version>
     </properties>
