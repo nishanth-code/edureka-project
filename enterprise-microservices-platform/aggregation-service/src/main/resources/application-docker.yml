@@ -1,0 +1,90 @@
+spring:
+  application:
+    name: aggregation-service
+  profiles:
+    active: docker
+  cloud:
+    openfeign:
+      lazy-attributes-resolution: true
+      client:
+        refresh-enabled: true
+      circuitbreaker:
+        enabled: true
+
+server:
+  port: 8087
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://service-registry:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+    registry-fetch-interval-seconds: 10
+    healthcheck:
+      enabled: true
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 30
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: full
+      product-catalog-service:
+        url: http://product-catalog-service:8083
+        connectTimeout: 5000
+        readTimeout: 5000
+      inventory-service:
+        url: http://inventory-service:8084
+        connectTimeout: 5000
+        readTimeout: 5000
+  lazy-attributes-resolution: true
+  compression:
+    request:
+      enabled: true
+      min-request-size: 2048
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      product-service:
+        register-health-indicator: true
+        sliding-window-size: 10
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10000
+        permitted-number-of-calls-in-half-open-state: 3
+        automatic-transition-from-open-to-half-open-enabled: true
+      inventory-service:
+        register-health-indicator: true
+        sliding-window-size: 10
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10000
+        permitted-number-of-calls-in-half-open-state: 3
+        automatic-transition-from-open-to-half-open-enabled: true
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    root: INFO
+    com.edureka.microservices: DEBUG

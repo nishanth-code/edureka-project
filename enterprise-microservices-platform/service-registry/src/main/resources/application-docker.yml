@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: service-registry
+  profiles:
+    active: docker
+
+server:
+  port: 8761
+
+eureka:
+  instance:
+    preference-ip-address: true
+    hostname: service-registry
+  server:
+    enable-self-preservation: false
+    eviction-interval-timer-in-ms: 3000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    root: INFO
+    com.netflix.eureka: WARN

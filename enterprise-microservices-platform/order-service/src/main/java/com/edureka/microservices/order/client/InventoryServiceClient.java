@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(
         name = "inventory-service",
-        url = "http://localhost:8084"
+        url = "${feign.client.config.inventory-service.url:http://localhost:8084}"
 )
 public interface InventoryServiceClient {
 
