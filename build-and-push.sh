@@ -1,16 +1,3 @@
-#!/bin/bash
-
-#############################################################################
-# Enterprise Microservices Platform - Docker Build and Push Script
-# This script builds and pushes Docker images to GitHub Container Registry
-# 
-# Usage:
-#   ./build-and-push.sh                    # Build and push all services with latest + timestamp
-#   ./build-and-push.sh 1.0.0              # Build and push with version 1.0.0 + latest
-#   ./build-and-push.sh 1.0.0 true         # Build and push with version 1.0.0 + latest
-#   ./build-and-push.sh 1.0.0 false        # Build only without pushing
-#
-#############################################################################
 
 set -e  # Exit on error
 
